@@ -13,7 +13,7 @@ interface App {
 }
 
 interface PGSAppSwitcherOptions {
-  configUrl?: string
+  apiUrl?: string
   customApps?: App[]
   onAppClick?: (app: App) => void
   target?: string | HTMLElement
@@ -51,7 +51,7 @@ class PGSAppSwitcher {
     // Create Vue app
     this.app = createApp({
       render: () => h(AppSwitcher, {
-        configUrl: options.configUrl,
+        apiUrl: options.apiUrl,
         customApps: options.customApps,
         onAppClick: options.onAppClick
       })

@@ -1,46 +1,26 @@
 <template>
   <div class="app-switcher-wrapper">
-    <button 
-      class="app-switcher-trigger" 
-      @click="toggleMenu"
-      :aria-expanded="isOpen"
-      aria-label="Sélecteur d'applications"
-    >
-      <svg 
-        class="apps-icon" 
-        viewBox="0 0 24 24" 
-        width="24" 
-        height="24"
-      >
-        <path d="M6 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm12 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM6 14c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM6 20c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
+    <button class="app-switcher-trigger" @click="toggleMenu" :aria-expanded="isOpen"
+      aria-label="Sélecteur d'applications">
+      <svg class="apps-icon" viewBox="0 0 24 24" width="24" height="24">
+        <path
+          d="M6 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm12 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM6 14c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM6 20c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" />
       </svg>
     </button>
 
     <Teleport to="body">
       <Transition name="menu-fade">
-        <div 
-          v-if="isOpen" 
-          class="app-switcher-overlay" 
-          @click="closeMenu"
-        >
-          <div 
-            class="app-switcher-menu" 
-            @click.stop
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="app-switcher-title"
-          >
+        <div v-if="isOpen" class="app-switcher-overlay" @click="closeMenu">
+          <div class="app-switcher-menu" @click.stop role="dialog" aria-modal="true"
+            aria-labelledby="app-switcher-title">
             <div class="menu-header">
               <h2 id="app-switcher-title" class="menu-title">
                 Applications PGS
               </h2>
-              <button 
-                class="close-button" 
-                @click="closeMenu"
-                aria-label="Fermer le menu"
-              >
+              <button class="close-button" @click="closeMenu" aria-label="Fermer le menu">
                 <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                  <path
+                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
                 </svg>
               </button>
             </div>
@@ -58,29 +38,11 @@
             </div>
 
             <div v-else class="apps-grid">
-              <a
-                v-for="app in apps"
-                :key="app.id"
-                :href="app.url"
-                class="app-item"
-                :title="app.description"
-                @click="handleAppClick(app)"
-              >
-                <div 
-                  class="app-icon" 
-                  :style="{ backgroundColor: app.color + '20' }"
-                >
-                  <img 
-                    v-if="app.icon" 
-                    :src="app.icon" 
-                    :alt="app.name"
-                    loading="lazy"
-                  />
-                  <div 
-                    v-else 
-                    class="app-icon-fallback"
-                    :style="{ backgroundColor: app.color }"
-                  >
+              <a v-for="app in apps" :key="app.id" :href="app.url" class="app-item" :title="app.description"
+                @click="handleAppClick(app)">
+                <div class="app-icon" :style="{ backgroundColor: app.color + '20' }">
+                  <img v-if="app.icon" :src="app.icon" :alt="app.name" loading="lazy" />
+                  <div v-else class="app-icon-fallback" :style="{ backgroundColor: app.color }">
                     {{ app.name.charAt(0).toUpperCase() }}
                   </div>
                 </div>
@@ -91,7 +53,8 @@
             <div v-if="!loading && !error && userData" class="menu-footer">
               <a :href="userData.accountUrl" class="footer-link">
                 <svg viewBox="0 0 24 24" width="18" height="18">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
                 </svg>
                 Gérer votre compte
               </a>
@@ -105,6 +68,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
+
+interface ApiApp {
+  id: string
+  slug: string
+  name: string
+  description: string
+  logo: string
+  ctaLink: string
+  category: string
+  // Champs optionnels ou calculés
+  color?: string
+  icon?: string
+  url?: string
+}
 
 interface App {
   id: string
@@ -122,26 +99,36 @@ interface UserData {
   logoutUrl: string
 }
 
-interface AppsConfig {
-  version: string
-  lastUpdated: string
-  user: UserData
-  apps: App[]
+interface ApiResponse {
+  success: boolean
+  data: ApiApp[]
 }
 
 interface Props {
-  configUrl?: string
+  apiUrl?: string
   customApps?: App[]
   onAppClick?: (app: App) => void
 }
 
+// Utilisation de la variable d'environnement
+const config = useRuntimeConfig()
+const baseUrl = config.public?.apiUrl || import.meta.env?.PGS_API_URL || ''
+// On retire le slash final s'il existe pour éviter les doubles slashs
+const cleanBaseUrl = baseUrl.replace(/\/$/, '')
+const defaultApiUrl = `${cleanBaseUrl}/solution/platform`
+
 const props = withDefaults(defineProps<Props>(), {
-  configUrl: 'https://cdn.jsdelivr.net/gh/ProGestionSoft/AppSwitcher@main/public/apps.json'
+  apiUrl: undefined
 })
 
 const isOpen = ref(false)
 const apps = ref<App[]>([])
-const userData = ref<UserData | null>(null)
+// Mockup user data as requested
+const userData = ref<UserData | null>({
+  profileUrl: "https://account.progestionsoft.com/profile",
+  accountUrl: "https://account.progestionsoft.com",
+  logoutUrl: "https://account.progestionsoft.com/logout"
+})
 const loading = ref(false)
 const error = ref<string | null>(null)
 
@@ -160,6 +147,27 @@ const handleAppClick = (app: App) => {
   closeMenu()
 }
 
+// Fonction utilitaire pour générer une couleur cohérente à partir d'une chaîne
+const stringToColor = (str: string) => {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  const c = (hash & 0x00FFFFFF).toString(16).toUpperCase()
+  return '#' + '00000'.substring(0, 6 - c.length) + c
+}
+
+const getCategoryColor = (category: string) => {
+  const colors: Record<string, string> = {
+    'Developer Tools': '#4285F4',
+    'Business Suite': '#0F9D58',
+    'Bot': '#EA4335',
+    'Recruitment & Talent': '#F9AB00',
+    'SEO & Analytics': '#673AB7'
+  }
+  return colors[category] || stringToColor(category)
+}
+
 const fetchApps = async () => {
   if (props.customApps) {
     apps.value = props.customApps
@@ -169,18 +177,32 @@ const fetchApps = async () => {
   loading.value = true
   error.value = null
 
+  const url = props.apiUrl || defaultApiUrl
+
   try {
-    const response = await fetch(props.configUrl)
-    
+    const response = await fetch(url)
+
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`)
     }
 
-    const data: AppsConfig = await response.json()
-    apps.value = data.apps
-    userData.value = data.user
+    const res: ApiResponse = await response.json()
+
+    if (res.success && Array.isArray(res.data)) {
+      apps.value = res.data.map((item) => ({
+        id: item.slug || item.id,
+        name: item.name,
+        description: item.description,
+        icon: item.logo,
+        url: item.ctaLink,
+        category: item.category,
+        color: getCategoryColor(item.category)
+      }))
+    } else {
+      throw new Error('Format de réponse invalide')
+    }
   } catch (err) {
-    error.value = err instanceof Error 
+    error.value = err instanceof Error
       ? `Impossible de charger les applications: ${err.message}`
       : 'Une erreur est survenue'
     console.error('Error fetching apps:', err)
@@ -206,7 +228,7 @@ onUnmounted(() => {
 })
 
 // Watch for config changes
-watch(() => props.configUrl, () => {
+watch(() => props.apiUrl, () => {
   fetchApps()
 })
 
@@ -278,6 +300,7 @@ watch(() => props.customApps, (newApps) => {
     opacity: 0;
     transform: translateY(-16px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -335,7 +358,9 @@ watch(() => props.customApps, (newApps) => {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .retry-button {

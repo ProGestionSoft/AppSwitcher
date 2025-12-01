@@ -1,0 +1,52 @@
+name: Deploy CDN
+
+on:
+  push:
+    branches:
+      - main
+    # On ignore les changements dans dist/ pour éviter les boucles infinies
+    paths-ignore:
+      - 'dist/**'
+      - 'README.md'
+      - 'docs/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      # Donne la permission d'écrire dans le repo
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build CDN files
+        run: npm run build:cdn
+        env:
+          # On injecte la variable secrète GitHub dans la variable d'env utilisée par Vite
+          PGS_API_URL: ${{ vars.PGS_API_URL }}
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Force l'ajout de dist même si dans .gitignore
+          git add -f dist
+          
+          # Commit seulement s'il y a des changements
+          git commit -m "chore(build): update cdn artifacts [skip ci]" || echo "No changes to commit"
+          
+          # Push les changements
+          git push
