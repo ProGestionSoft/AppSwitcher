@@ -1,0 +1,33 @@
+{
+  "name": "@progestionsoft/app-switcher",
+  "version": "1.0.0",
+  "description": "A shared app switcher component for ProGestionSoft ecosystem",
+  "type": "module",
+  "main": "dist/app-switcher.umd.js",
+  "module": "dist/app-switcher.es.js",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build:cdn": "vite build --config vite.config.ts",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "^3.11.0",
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ProGestionSoft/AppSwitcher.git"
+  },
+  "keywords": [
+    "app-switcher",
+    "vue",
+    "component",
+    "cdn"
+  ],
+  "author": "ProGestionSoft",
+  "license": "MIT"
+}

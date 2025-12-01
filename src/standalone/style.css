@@ -1,0 +1,15 @@
+/* Reset for standalone component */
+#pgs-app-switcher * {
+  box-sizing: border-box;
+}
+
+#pgs-app-switcher {
+  font-family: Inter, sans-serif;
+}
+
+#pgs-app-switcher button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
