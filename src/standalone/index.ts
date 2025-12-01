@@ -19,6 +19,7 @@ interface PGSAppSwitcherOptions {
   enableFilters?: boolean
   enableViewSwitch?: boolean
   triggerIconColor?: string
+  sortAlphabetically?: boolean
 }
 
 class PGSAppSwitcher {
@@ -66,7 +67,8 @@ class PGSAppSwitcher {
         viewMode: options.viewMode,
         enableFilters: options.enableFilters,
         enableViewSwitch: options.enableViewSwitch,
-        triggerIconColor: options.triggerIconColor
+        triggerIconColor: options.triggerIconColor,
+        sortAlphabetically: options.sortAlphabetically
       })
     })
 

@@ -44,15 +44,14 @@ const getAppsByCategory = (category: string) => {
 
 <style scoped>
 .apps-kanban {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   padding: 24px;
-  overflow-x: auto;
 }
 
 .kanban-column {
-  min-width: 200px;
-  flex: 1;
+  min-width: 0;
   background: var(--bg-secondary, #f8f9fa);
   border-radius: var(--radius-lg, 12px);
   padding: 16px;
@@ -123,7 +122,7 @@ const getAppsByCategory = (category: string) => {
 
 @media (max-width: 768px) {
   .apps-kanban {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .kanban-column {

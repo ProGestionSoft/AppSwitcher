@@ -18,10 +18,16 @@ import AppSwitcher from '~/components/AppSwitcher.vue'
 
 <style scoped>
 .demo-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 16px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
 }
 
 .header-content {

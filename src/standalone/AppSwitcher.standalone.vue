@@ -94,6 +94,7 @@ interface Props {
   enableFilters?: boolean
   enableViewSwitch?: boolean
   triggerIconColor?: string
+  sortAlphabetically?: boolean
 }
 
 const baseUrl = import.meta.env?.PGS_API_URL || ''
@@ -111,7 +112,8 @@ const props = withDefaults(defineProps<Props>(), {
   viewMode: 'grid',
   enableFilters: true,
   enableViewSwitch: true,
-  triggerIconColor: 'currentColor'
+  triggerIconColor: 'currentColor',
+  sortAlphabetically: true
 })
 
 const isOpen = ref(false)
@@ -139,11 +141,18 @@ const categories = computed(() => {
 })
 
 const filteredApps = computed(() => {
-  return apps.value.filter(app => {
+  let result = apps.value.filter(app => {
     const matchesSearch = app.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     const matchesCategory = !selectedCategory.value || app.category === selectedCategory.value
     return matchesSearch && matchesCategory
   })
+
+  // Trier par ordre alphabétique si activé
+  if (props.sortAlphabetically) {
+    result = result.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+  return result
 })
 
 const toggleMenu = () => {
