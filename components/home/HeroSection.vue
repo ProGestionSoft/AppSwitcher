@@ -2,10 +2,10 @@
   <section class="hero">
     <h1 class="hero-title">PGS App Switcher</h1>
     <p class="hero-subtitle">
-      Un composant partagé pour naviguer entre toutes vos applications PGS
+      Composant partagé pour naviguer entre toutes lles applications PGS
     </p>
     <div class="hero-actions">
-      <a href="#demo" class="btn btn-primary">Voir la démo</a>
+      <a href="#demo" class="btn btn-primary">Démo</a>
       <a href="#integration" class="btn btn-secondary">Guide d'intégration</a>
     </div>
   </section>

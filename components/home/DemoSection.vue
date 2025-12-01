@@ -2,7 +2,7 @@
   <section id="demo" class="section">
     <h2 class="section-title">Démonstration</h2>
     <p class="section-description">
-      Cliquez sur l'icône des applications dans l'en-tête pour voir le menu.
+      Clique sur l'icône des applications dans l'en-tête pour voir le menu.
     </p>
 
     <div class="demo-controls">
@@ -28,8 +28,7 @@
           :enableViewSwitch="true" />
       </div>
       <div class="demo-card-body">
-        <p>Le menu s'affiche ici dans l'en-tête de votre application.</p>
-        <p>Essayez de changer les paramètres ci-dessus pour voir les différentes configurations !</p>
+        <p>Le menu s'affiche ici.</p>
       </div>
     </div>
   </section>
@@ -121,6 +120,7 @@ const demoItemsPerRow = ref(3)
 
 .demo-card-body {
   padding: 32px;
+  text-align: center;
 }
 
 .demo-card-body p {

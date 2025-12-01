@@ -12,7 +12,7 @@
           </svg>
         </button>
         <div class="accordion-content" :class="{ open: activeAccordion === 0 }">
-          <p>Ajoutez simplement ces lignes dans votre HTML :</p>
+          <p>Utilisation dans HTML :</p>
           <pre><code>&lt;!-- CSS --&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ProGestionSoft/AppSwitcher@main/dist/app-switcher.css"&gt;
 
@@ -37,7 +37,7 @@
           </svg>
         </button>
         <div class="accordion-content" :class="{ open: activeAccordion === 1 }">
-          <p>Importez simplement le composant :</p>
+          <p>Utilisation dans Nuxt.js</p>
           <pre><code>&lt;template&gt;
   &lt;AppSwitcher /&gt;
 &lt;/template&gt;

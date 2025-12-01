@@ -6,14 +6,14 @@
         <div class="feature-icon">🚀</div>
         <h3 class="feature-title">Mise à jour centralisée</h3>
         <p class="feature-description">
-          Mettez à jour le fichier apps.json une seule fois et toutes vos applications sont à jour.
+          Mettre à jour les données de l'API et toutes vos applications sont à jour.
         </p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🎨</div>
         <h3 class="feature-title">Design moderne</h3>
         <p class="feature-description">
-          Interface élégante inspirée de Google avec animations fluides.
+          Interface élégante avec animations fluides.
         </p>
       </div>
       <div class="feature-card">
