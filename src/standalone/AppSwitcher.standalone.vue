@@ -179,6 +179,11 @@ const fetchApps = async () => {
       throw new Error(`Erreur HTTP: ${response.status}`)
     }
 
+    const contentType = response.headers.get('content-type')
+    if (contentType && contentType.includes('text/html')) {
+      throw new Error('L\'API a retourné une page HTML au lieu de JSON. Vérifiez l\'URL de l\'API.')
+    }
+
     const res: ApiResponse = await response.json()
 
     if (res.success && Array.isArray(res.data)) {
@@ -451,6 +456,7 @@ watch(() => props.customApps, (newApps) => {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }

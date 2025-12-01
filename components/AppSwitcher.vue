@@ -112,7 +112,7 @@ interface Props {
 
 // Utilisation de la variable d'environnement
 const config = useRuntimeConfig()
-const baseUrl = config.public?.apiUrl || import.meta.env?.PGS_API_URL || ''
+const baseUrl = config.public?.pgsBaseAPI || import.meta.env?.PGS_API_URL || ''
 // On retire le slash final s'il existe pour éviter les doubles slashs
 const cleanBaseUrl = baseUrl.replace(/\/$/, '')
 const defaultApiUrl = `${cleanBaseUrl}/solution/platform`
@@ -184,6 +184,11 @@ const fetchApps = async () => {
 
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`)
+    }
+
+    const contentType = response.headers.get('content-type')
+    if (contentType && contentType.includes('text/html')) {
+      throw new Error('L\'API a retourné une page HTML au lieu de JSON. Vérifiez l\'URL de l\'API.')
     }
 
     const res: ApiResponse = await response.json()
@@ -447,6 +452,7 @@ watch(() => props.customApps, (newApps) => {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
