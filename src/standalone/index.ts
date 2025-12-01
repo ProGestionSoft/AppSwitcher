@@ -1,22 +1,24 @@
 import { createApp, h } from 'vue'
 import AppSwitcher from './AppSwitcher.standalone.vue'
 import './style.css'
-
-interface App {
-  id: string
-  name: string
-  description: string
-  icon: string
-  url: string
-  color: string
-  category: string
-}
+import type { App, UserData, ViewMode } from '~/types/app-switcher'
 
 interface PGSAppSwitcherOptions {
   apiUrl?: string
   customApps?: App[]
   onAppClick?: (app: App) => void
   target?: string | HTMLElement
+  userData?: UserData
+  profileUrl?: string
+  accountUrl?: string
+  logoutUrl?: string
+  openInNewTab?: boolean
+  userLinksOpenInNewTab?: boolean
+  itemsPerRow?: number
+  viewMode?: ViewMode
+  enableFilters?: boolean
+  enableViewSwitch?: boolean
+  triggerIconColor?: string
 }
 
 class PGSAppSwitcher {
@@ -53,7 +55,18 @@ class PGSAppSwitcher {
       render: () => h(AppSwitcher, {
         apiUrl: options.apiUrl,
         customApps: options.customApps,
-        onAppClick: options.onAppClick
+        onAppClick: options.onAppClick,
+        userData: options.userData,
+        profileUrl: options.profileUrl,
+        accountUrl: options.accountUrl,
+        logoutUrl: options.logoutUrl,
+        openInNewTab: options.openInNewTab,
+        userLinksOpenInNewTab: options.userLinksOpenInNewTab,
+        itemsPerRow: options.itemsPerRow,
+        viewMode: options.viewMode,
+        enableFilters: options.enableFilters,
+        enableViewSwitch: options.enableViewSwitch,
+        triggerIconColor: options.triggerIconColor
       })
     })
 

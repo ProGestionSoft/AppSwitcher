@@ -1,0 +1,6 @@
+export { default as AppHeader } from './AppHeader.vue'
+export { default as HeroSection } from './HeroSection.vue'
+export { default as DemoSection } from './DemoSection.vue'
+export { default as GuideSection } from './GuideSection.vue'
+export { default as FeaturesSection } from './FeaturesSection.vue'
+export { default as AppFooter } from './AppFooter.vue'
