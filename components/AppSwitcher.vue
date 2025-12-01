@@ -2,7 +2,8 @@
   <div class="app-switcher-wrapper">
     <button class="app-switcher-trigger" @click="toggleMenu" :aria-expanded="isOpen"
       aria-label="Sélecteur d'applications">
-      <svg class="apps-icon" viewBox="0 0 24 24" width="24" height="24" :style="{ fill: triggerIconColor }">
+      <svg class="apps-icon" viewBox="0 0 24 24" width="24" height="24"
+        :style="{ fill: userSettings.triggerIconColor }">
         <path
           d="M6 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm12 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM6 14c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM6 20c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" />
       </svg>
@@ -17,20 +18,28 @@
               <h2 id="app-switcher-title" class="menu-title">
                 Applications PGS
               </h2>
-              <button class="close-button" @click="closeMenu" aria-label="Fermer le menu">
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path
-                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-                </svg>
-              </button>
+              <div class="header-actions">
+                <button v-if="enableSettings" class="settings-button" @click="openSettings" aria-label="Paramètres">
+                  <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path
+                      d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+                  </svg>
+                </button>
+                <button class="close-button" @click="closeMenu" aria-label="Fermer le menu">
+                  <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path
+                      d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <!-- Filters and View Controls -->
-            <div v-if="enableFilters || enableViewSwitch" class="menu-controls">
-              <Filters v-if="enableFilters" v-model:searchQuery="searchQuery"
+            <div v-if="userSettings.enableFilters || userSettings.enableViewSwitch" class="menu-controls">
+              <Filters v-if="userSettings.enableFilters" v-model:searchQuery="searchQuery"
                 v-model:selectedCategory="selectedCategory" :categories="categories" />
 
-              <ViewSwitch v-if="enableViewSwitch" v-model:viewMode="currentViewMode" />
+              <ViewSwitch v-if="userSettings.enableViewSwitch" v-model:viewMode="currentViewMode" />
             </div>
 
             <div v-if="loading" class="menu-loading">
@@ -46,19 +55,19 @@
             </div>
 
             <template v-else>
-              <GridView v-if="currentViewMode === 'grid'" :apps="filteredApps" :itemsPerRow="itemsPerRow"
-                :openInNewTab="openInNewTab" @appClick="handleAppClick" />
+              <GridView v-if="currentViewMode === 'grid'" :apps="filteredApps" :itemsPerRow="userSettings.itemsPerRow"
+                :openInNewTab="userSettings.openInNewTab" @appClick="handleAppClick" />
 
-              <ListView v-else-if="currentViewMode === 'list'" :apps="filteredApps" :openInNewTab="openInNewTab"
-                @appClick="handleAppClick" />
+              <ListView v-else-if="currentViewMode === 'list'" :apps="filteredApps"
+                :openInNewTab="userSettings.openInNewTab" @appClick="handleAppClick" />
 
-              <KanbanView v-else-if="currentViewMode === 'kanban'" :apps="filteredApps" :openInNewTab="openInNewTab"
-                @appClick="handleAppClick" />
+              <KanbanView v-else-if="currentViewMode === 'kanban'" :apps="filteredApps"
+                :openInNewTab="userSettings.openInNewTab" @appClick="handleAppClick" />
             </template>
 
             <div v-if="!loading && !error && computedUserData" class="menu-footer">
-              <a :href="computedUserData.accountUrl" :target="userLinksOpenInNewTab ? '_blank' : '_self'"
-                :rel="userLinksOpenInNewTab ? 'noopener noreferrer' : undefined" class="footer-link">
+              <a :href="computedUserData.accountUrl" :target="userSettings.userLinksOpenInNewTab ? '_blank' : '_self'"
+                :rel="userSettings.userLinksOpenInNewTab ? 'noopener noreferrer' : undefined" class="footer-link">
                 <svg viewBox="0 0 24 24" width="18" height="18">
                   <path
                     d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
@@ -69,6 +78,10 @@
           </div>
         </div>
       </Transition>
+
+      <!-- Settings Panel -->
+      <SettingsPanel v-if="enableSettings" :isOpen="settingsOpen" :currentSettings="userSettings" @close="closeSettings"
+        @save="saveSettings" />
     </Teleport>
   </div>
 </template>
@@ -81,6 +94,20 @@ import ViewSwitch from './AppSwitcher/ViewSwitch.vue'
 import GridView from './AppSwitcher/GridView.vue'
 import ListView from './AppSwitcher/ListView.vue'
 import KanbanView from './AppSwitcher/KanbanView.vue'
+import SettingsPanel from './AppSwitcher/SettingsPanel.vue'
+
+const STORAGE_KEY = 'pgs-appswitcher-settings'
+
+interface UserSettings {
+  viewMode: ViewMode
+  itemsPerRow: number
+  sortAlphabetically: boolean
+  enableFilters: boolean
+  enableViewSwitch: boolean
+  openInNewTab: boolean
+  userLinksOpenInNewTab: boolean
+  triggerIconColor: string
+}
 
 interface Props {
   apiUrl?: string
@@ -98,6 +125,7 @@ interface Props {
   enableViewSwitch?: boolean
   triggerIconColor?: string
   sortAlphabetically?: boolean
+  enableSettings?: boolean
 }
 
 const config = useRuntimeConfig()
@@ -117,16 +145,48 @@ const props = withDefaults(defineProps<Props>(), {
   enableFilters: true,
   enableViewSwitch: true,
   triggerIconColor: 'currentColor',
-  sortAlphabetically: true
+  sortAlphabetically: true,
+  enableSettings: true
 })
 
 const isOpen = ref(false)
+const settingsOpen = ref(false)
 const apps = ref<App[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
 const searchQuery = ref('')
 const selectedCategory = ref('')
-const currentViewMode = ref(props.viewMode)
+
+// User Settings with localStorage
+const getDefaultSettings = (): UserSettings => ({
+  viewMode: props.viewMode,
+  itemsPerRow: props.itemsPerRow,
+  sortAlphabetically: props.sortAlphabetically,
+  enableFilters: props.enableFilters,
+  enableViewSwitch: props.enableViewSwitch,
+  openInNewTab: props.openInNewTab,
+  userLinksOpenInNewTab: props.userLinksOpenInNewTab,
+  triggerIconColor: props.triggerIconColor
+})
+
+const loadUserSettings = (): UserSettings => {
+  if (!props.enableSettings) {
+    return getDefaultSettings()
+  }
+
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      return { ...getDefaultSettings(), ...JSON.parse(saved) }
+    }
+  } catch (e) {
+    console.warn('Failed to load settings:', e)
+  }
+  return getDefaultSettings()
+}
+
+const userSettings = ref<UserSettings>(loadUserSettings())
+const currentViewMode = ref<ViewMode>(userSettings.value.viewMode)
 
 const computedUserData = computed<UserData>(() => {
   if (props.userData) {
@@ -152,7 +212,7 @@ const filteredApps = computed(() => {
   })
 
   // Trier par ordre alphabétique si activé
-  if (props.sortAlphabetically) {
+  if (userSettings.value.sortAlphabetically) {
     result = result.sort((a, b) => a.name.localeCompare(b.name))
   }
 
@@ -165,6 +225,27 @@ const toggleMenu = () => {
 
 const closeMenu = () => {
   isOpen.value = false
+}
+
+const openSettings = () => {
+  settingsOpen.value = true
+}
+
+const closeSettings = () => {
+  settingsOpen.value = false
+}
+
+const saveSettings = (newSettings: UserSettings) => {
+  userSettings.value = newSettings
+  currentViewMode.value = newSettings.viewMode
+
+  if (props.enableSettings) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newSettings))
+    } catch (e) {
+      console.error('Failed to save settings:', e)
+    }
+  }
 }
 
 const handleAppClick = (app: App, event: Event) => {
@@ -246,8 +327,12 @@ const fetchApps = async () => {
 }
 
 const handleKeydown = (e: KeyboardEvent) => {
-  if (e.key === 'Escape' && isOpen.value) {
-    closeMenu()
+  if (e.key === 'Escape') {
+    if (settingsOpen.value) {
+      closeSettings()
+    } else if (isOpen.value) {
+      closeMenu()
+    }
   }
 }
 
@@ -268,10 +353,6 @@ watch(() => props.customApps, (newApps) => {
   if (newApps) {
     apps.value = newApps
   }
-})
-
-watch(() => props.viewMode, (newMode) => {
-  currentViewMode.value = newMode
 })
 </script>
 
@@ -357,6 +438,13 @@ watch(() => props.viewMode, (newMode) => {
   color: var(--text-primary, #202124);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-button,
 .close-button {
   width: 40px;
   height: 40px;
@@ -368,10 +456,12 @@ watch(() => props.viewMode, (newMode) => {
   transition: background-color var(--transition-fast, 150ms);
 }
 
+.settings-button:hover,
 .close-button:hover {
   background-color: var(--border-color, #dadce0);
 }
 
+.settings-button svg,
 .close-button svg {
   fill: currentColor;
 }
