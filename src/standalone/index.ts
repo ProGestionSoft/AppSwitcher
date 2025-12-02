@@ -1,7 +1,25 @@
 import { createApp, h } from 'vue'
 import AppSwitcher from './AppSwitcher.standalone.vue'
 import './style.css'
-import type { App, UserData, ViewMode } from '~/types/app-switcher'
+
+// Types locaux (standalone, pas de dépendance Nuxt)
+type ViewMode = 'grid' | 'list' | 'kanban'
+
+interface App {
+  id: string
+  name: string
+  description: string
+  icon: string
+  url: string
+  category: string
+  color: string
+}
+
+interface UserData {
+  profileUrl: string
+  accountUrl: string
+  logoutUrl: string
+}
 
 interface PGSAppSwitcherOptions {
   apiUrl?: string

@@ -83,8 +83,39 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
-import type { App, UserData, ApiResponse, ViewMode } from '~/types/app-switcher'
-import { Filters, GridView, KanbanView, ListView, SettingsPanel, ViewSwitch } from '~/components/appCompSwitcher'
+import { Filters, GridView, KanbanView, ListView, SettingsPanel, ViewSwitch } from './components'
+
+// Types locaux (remplacent les imports Nuxt)
+type ViewMode = 'grid' | 'list' | 'kanban'
+
+interface App {
+  id: string
+  name: string
+  description: string
+  icon: string
+  url: string
+  category: string
+  color: string
+}
+
+interface UserData {
+  profileUrl: string
+  accountUrl: string
+  logoutUrl: string
+}
+
+interface ApiResponse {
+  success: boolean
+  data: Array<{
+    id?: string
+    slug?: string
+    name: string
+    description: string
+    logo: string
+    ctaLink: string
+    category: string
+  }>
+}
 
 const STORAGE_KEY = 'pgs-appswitcher-settings'
 
@@ -295,7 +326,7 @@ const fetchApps = async () => {
 
     if (res.success && Array.isArray(res.data)) {
       apps.value = res.data.map((item) => ({
-        id: item.slug || item.id,
+        id: item.slug || item.id || `app-${Date.now()}-${Math.random()}`,
         name: item.name,
         description: item.description,
         icon: item.logo,
