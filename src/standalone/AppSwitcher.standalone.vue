@@ -84,14 +84,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import type { App, UserData, ApiResponse, ViewMode } from '~/types/app-switcher'
-
-// Import shared components
-import Filters from '~/components/AppSwitcher/Filters.vue'
-import ViewSwitch from '~/components/AppSwitcher/ViewSwitch.vue'
-import GridView from '~/components/AppSwitcher/GridView.vue'
-import ListView from '~/components/AppSwitcher/ListView.vue'
-import KanbanView from '~/components/AppSwitcher/KanbanView.vue'
-import SettingsPanel from '~/components/AppSwitcher/SettingsPanel.vue'
+import { Filters, GridView, KanbanView, ListView, SettingsPanel, ViewSwitch } from '~/components/appCompSwitcher'
 
 const STORAGE_KEY = 'pgs-appswitcher-settings'
 

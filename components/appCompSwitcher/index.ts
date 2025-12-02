@@ -1,0 +1,6 @@
+export { default as Filters } from './Filters.vue'
+export { default as GridView } from './GridView.vue'
+export { default as KanbanView } from './KanbanView.vue'
+export { default as ListView } from './ListView.vue'
+export { default as SettingsPanel } from './SettingsPanel.vue'
+export { default as ViewSwitch } from './ViewSwitch.vue'
